@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>БелТрансАвто — Аренда спецтехники в СПб и ЛО</title>
+    <!-- Шрифт Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Яндекс Карты API -->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш-ключ-если-нужен&lang=ru_RU" type="text/javascript"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #ffffff;
+            color: #2d2d2d;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* ===== ВЕРХНЯЯ ПЛАШКА С КНОПКАМИ ===== */
+        .top-contacts {
+            background-color: #696868;
+            color: white;
+            padding: 15px 0;
+            border-bottom: 3px solid #f97316;
+        }
+
+        .top-contacts .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .top-phones {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .phone-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .phone-block i {
+            font-size: 20px;
+            color: #f97316;
+            width: 24px;
+        }
+
+        .phone-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-name {
+            font-weight: 400;
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        .phone-number {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .top-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-call {
+            background-color: #f97316;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .btn-call:hover {
+            background-color: transparent;
+            border-color: #f97316;
+            color: #f97316;
+        }
+
+        .btn-call i {
+            font-size: 14px;
+        }
+
+        /* ===== НАВИГАЦИЯ ===== */
+        .navbar {
+            background-color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 900;
+            color: #696868;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .logo span {
+            font-size: 12px;
+            font-weight: 500;
+            color: #f97316;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a4a4a;
+            font-weight: 600;
+            font-size: 16px;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #f97316;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #696868;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 28px;
+            color: #696868;
+            cursor: pointer;
+        }
+
+        /* Мобильное меню */
+        .mobile-nav {
+            display: none;
+            width: 100%;
+            background-color: white;
+            padding: 20px 0;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+        }
+
+        .mobile-nav ul li {
+            margin-bottom: 15px;
+        }
+
+        .mobile-nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            color: #4a4a4a;
+            display: block;
+            padding: 5px 0;
+            transition: 0.3s;
+        }
+
+        .mobile-nav ul li a:hover {
+            color: #f97316;
+        }
+
+        /* ===== ГЛАВНЫЙ ЭКРАН ===== */
+        .hero {
+            background-color: #f8f9fa;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background-color: #f97316;
+            opacity: 0.03;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .hero .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-label {
+            background-color: #f97316;
+            color: white;
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        .hero-content h2 {
+            font-size: 52px;
+            font-weight: 900;
+            color: #696868;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-content h2 span {
+            color: #f97316;
+            display: block;
+            font-size: 42px;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: #6c757d;
+            margin-bottom: 20px;
+            max-width: 500px;
+        }
+
+        .price-tag {
+            display: inline-block;
+            background-color: #f97316;
+            color: white;
+            font-weight: 800;
+            font-size: 24px;
+            padding: 12px 30px;
+            border-radius: 50px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 20px rgba(249,115,22,0.3);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 900;
+            color: #696868;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #adb5bd;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-image {
+            flex: 1;
+            height: 400px;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 30px 40px -20px rgba(0,0,0,0.3);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ===== УСЛУГИ ===== */
+        .services {
+            padding: 100px 0;
+            background-color: white;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+
+        .section-tag {
+            color: #f97316;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .section-header h2 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #696868;
+            margin-bottom: 20px;
+        }
+
+        .section-header p {
+            color: #adb5bd;
+            font-size: 18px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-item {
+            background: #f8f9fa;
+            padding: 40px 30px;
+            border-radius: 30px;
+            transition: 0.4s;
+            border: 1px solid transparent;
+        }
+
+        .service-item:hover {
+            transform: translateY(-10px);
+            border-color: #f97316;
+            box-shadow: 0 30px 40px -30px rgba(249,115,22,0.3);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            color: #f97316;
+            font-size: 40px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+        }
+
+        .service-item h3 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #696868;
+            margin-bottom: 15px;
+        }
+
+        .service-item p {
+            color: #6c757d;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .service-features {
+            list-style: none;
+        }
+
+        .service-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #4a4a4a;
+        }
+
+        .service-features li i {
+            color: #f97316;
+            font-size: 14px;
+        }
+
+        /* ===== ТЕХНИКА ===== */
+        .equipment {
+            padding: 100px 0;
+            background-color: #f8f9fa;
+        }
+
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .equipment-category {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.02);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f97316;
+        }
+
+        .category-icon {
+            font-size: 40px;
+        }
+
+        .category-header h3 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #696868;
+        }
+
+        .equipment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .equipment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px dashed #e9ecef;
+        }
+
+        .equipment-item:last-child {
+            border-bottom: none;
+        }
+
+        .equipment-name {
+            font-weight: 700;
+            color: #696868;
+            font-size: 18px;
+        }
+
+        .equipment-desc {
+            color: #f97316;
+            font-weight: 600;
+            font-size: 15px;
+            background: #fff4e6;
+            padding: 5px 15px;
+            border-radius: 50px;
+        }
+
+        /* ===== РЕШЕНИЯ ПОД КЛЮЧ ===== */
+        .solutions {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .solution-card {
+            background: #f8f9fa;
+            border-radius: 30px;
+            padding: 40px;
+            transition: 0.4s;
+            border-left: 6px solid #f97316;
+        }
+
+        .solution-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 20px 30px rgba(249,115,22,0.1);
+        }
+
+        .solution-card h4 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #696868;
+            margin-bottom: 25px;
+        }
+
+        .solution-steps {
+            list-style: none;
+        }
+
+        .solution-steps li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: #4a4a4a;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background-color: #f97316;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* ===== ВАКАНСИИ ===== */
+        .vacancies {
+            padding: 100px 0;
+            background-color: #f8f9fa;
+        }
+
+        .vacancies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .vacancy-card {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            transition: 0.4s;
+            border: 2px solid transparent;
+        }
+
+        .vacancy-card:hover {
+            border-color: #f97316;
+            transform: scale(1.02);
+        }
+
+        .vacancy-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #fff4e6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: #f97316;
+            font-size: 36px;
+        }
+
+        .vacancy-card h3 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #696868;
+            margin-bottom: 20px;
+        }
+
+        .vacancy-salary {
+            font-size: 36px;
+            font-weight: 900;
+            color: #f97316;
+            margin: 20px 0;
+        }
+
+        /* ===== КОНТАКТЫ ===== */
+        .contacts {
+            background: #696868;
+            color: white;
+            padding: 80px 0;
+        }
+
+        .contacts .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contacts-info h2 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 30px;
+        }
+
+        .contacts-info h2 span {
+            color: #f97316;
+        }
+
+        .contacts-details {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .contact-line {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 18px;
+        }
+
+        .contact-line i {
+            width: 30px;
+            color: #f97316;
+            font-size: 24px;
+        }
+
+        .contacts-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            transition: 0.3s;
+            display: inline-block;
+            border: 2px solid transparent;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .btn-primary {
+            background: #f97316;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            border-color: #f97316;
+            color: #f97316;
+        }
+
+        #map {
+            width: 100%;
+            height: 350px;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
+        }
+
+        .footer {
+            background: #4a4a4a;
+            color: #adb5bd;
+            text-align: center;
+            padding: 30px;
+            font-size: 14px;
+        }
+
+        /* ===== АДАПТАЦИЯ ===== */
+        @media screen and (max-width: 1024px) {
+            .hero-content h2 {
+                font-size: 42px;
+            }
+            .hero-content h2 span {
+                font-size: 32px;
+            }
+        }
+
+        @media screen and (max-width: 900px) {
+            .desktop-nav {
+                display: none;
+            }
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .hero .container {
+                flex-direction: column;
+            }
+            .contacts .container {
+                grid-template-columns: 1fr;
+            }
+            .top-contacts .container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .top-phones {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media screen and (min-width: 901px) {
+            .mobile-nav {
+                display: none !important;
+            }
+            .desktop-nav {
+                display: flex !important;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .hero-content h2 {
+                font-size: 36px;
+            }
+            .section-header h2 {
+                font-size: 32px;
+            }
+            .contacts-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 0 20px;
+            }
+            .hero-image {
+                height: 250px;
+            }
+            .top-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn-call {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ВЕРХНЯЯ ПЛАШКА С ТЕЛЕФОНАМИ И КНОПКАМИ -->
+<div class="top-contacts">
+    <div class="container">
+        <div class="top-phones">
+            <div class="phone-block">
+                <i class="fas fa-phone-alt"></i>
+                <div class="phone-info">
+                    <span class="phone-name">Леонид</span>
+                    <span class="phone-number">+7 (911) 946-63-69</span>
+                </div>
+            </div>
+            <div class="phone-block">
+                <i class="fas fa-phone-alt"></i>
+                <div class="phone-info">
+                    <span class="phone-name">Геннадий</span>
+                    <span class="phone-number">+7 (911) 200-30-21</span>
+                </div>
+            </div>
+        </div>
+        <div class="top-buttons">
+            <a href="tel:+79119466369" class="btn-call">
+                <i class="fas fa-phone-alt"></i> Позвонить Леониду
+            </a>
+            <a href="tel:+79112003021" class="btn-call">
+                <i class="fas fa-phone-alt"></i> Позвонить Геннадию
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Навигация -->
+<div class="navbar">
+    <div class="container">
+        <div class="logo">
+            <h1>БЕЛТРАНСАВТО</h1>
+            <span>АРЕНДА СПЕЦТЕХНИКИ</span>
+        </div>
+        <div class="desktop-nav nav-links">
+            <a href="#services">Услуги</a>
+            <a href="#equipment">Техника</a>
+            <a href="#solutions">Решения</a>
+            <a href="#vacancies">Вакансии</a>
+            <a href="#contacts">Контакты</a>
+        </div>
+        <div class="mobile-menu-toggle" id="burgerBtn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+    <!-- Мобильное меню -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="container">
+            <ul>
+                <li><a href="#services" class="mobile-link">Услуги</a></li>
+                <li><a href="#equipment" class="mobile-link">Техника</a></li>
+                <li><a href="#solutions" class="mobile-link">Решения</a></li>
+                <li><a href="#vacancies" class="mobile-link">Вакансии</a></li>
+                <li><a href="#contacts" class="mobile-link">Контакты</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Главный экран -->
+<div class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-label">СВОЙ АВТОПАРК • БЕЗ ПОСРЕДНИКОВ</div>
+            <h2>АРЕНДА СПЕЦТЕХНИКИ <span>В СПб И ЛО</span></h2>
+            <p>Экскаваторы, самосвалы, тралы, бульдозеры, краны 25-40т. Опытные машинисты.</p>
+            <div class="price-tag">от 3 000 ₽/час</div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">30+</span>
+                    <span class="stat-label">ЕДИНИЦ ТЕХНИКИ</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">РАБОТАЕМ</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">5+</span>
+                    <span class="stat-label">ЛЕТ ОПЫТА</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <!-- ЗДЕСЬ ВСТАВЬТЕ СВОЮ КАРТИНКУ -->
+            <img src="C:\Users\Денис\Downloads\1773819503.png" alt="БелТрансАвто техника">
+        </div>
+    </div>
+</div>
+
+<!-- Услуги -->
+<section id="services" class="services">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">ЧТО МЫ ПРЕДЛАГАЕМ</div>
+            <h2>Наши услуги</h2>
+            <p>Полный комплекс работ спецтехникой в Санкт-Петербурге и Ленинградской области</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-item">
+                <div class="service-icon"><i class="fas fa-truck"></i></div>
+                <h3>Аренда трала</h3>
+                <p>Перевозка негабаритных грузов, спецтехники, буровых установок</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Тралы 40 тонн</li>
+                    <li><i class="fas fa-check-circle"></i> Сопровождение</li>
+                    <li><i class="fas fa-check-circle"></i> Доставка по СПб и ЛО</li>
+                </ul>
+            </div>
+            <div class="service-item">
+                <div class="service-icon"><i class="fas fa-truck"></i></div>
+                <h3>Услуги экскаваторов</h3>
+                <p>Колесные, гусеничные, полноповоротные с любым навесным оборудованием</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Расчистка участков</li>
+                    <li><i class="fas fa-check-circle"></i> Откопка котлованов</li>
+                    <li><i class="fas fa-check-circle"></i> Гидромолот, рыхлитель</li>
+                </ul>
+            </div>
+            <div class="service-item">
+                <div class="service-icon"><i class="fas fa-truck"></i></div>
+                <h3>Услуги самосвалов</h3>
+                <p>Погрузка и вывоз грунта, доставка нерудных материалов</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Песок, щебень, ПГС</li>
+                    <li><i class="fas fa-check-circle"></i> Вывоз мусора</li>
+                    <li><i class="fas fa-check-circle"></i> Самосвалы 20-25т</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Техника -->
+<section id="equipment" class="equipment">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">НАШ АВТОПАРК</div>
+            <h2>Решим любую задачу</h2>
+            <p>Подбираем технику под вашу конкретную задачу</p>
+        </div>
+        <div class="equipment-grid">
+            <div class="equipment-category">
+                <div class="category-header">
+                    <span class="category-icon">🏗️</span>
+                    <h3>Для строительства</h3>
+                </div>
+                <div class="equipment-list">
+                    <div class="equipment-item">
+                        <span class="equipment-name">Экскаваторы гусеничные</span>
+                        <span class="equipment-desc">Volvo, Hitachi, Komatsu</span>
+                    </div>
+                    <div class="equipment-item">
+                        <span class="equipment-name">Экскаваторы колесные</span>
+                        <span class="equipment-desc">Komatsu PW</span>
+                    </div>
+                    <div class="equipment-item">
+                        <span class="equipment-name">Бульдозер</span>
+                        <span class="equipment-desc">Caterpillar D6R</span>
+                    </div>
+                    <div class="equipment-item">
+                        <span class="equipment-name">Автокраны</span>
+                        <span class="equipment-desc">25т, 30т, 40т</span>
+                    </div>
+                </div>
+            </div>
+            <div class="equipment-category">
+                <div class="category-header">
+                    <span class="category-icon">🚛</span>
+                    <h3>Для перевозок</h3>
+                </div>
+                <div class="equipment-list">
+                    <div class="equipment-item">
+                        <span class="equipment-name">Самосвалы 20-25т</span>
+                        <span class="equipment-desc">Volvo, Renault, Mercedes</span>
+                    </div>
+                    <div class="equipment-item">
+                        <span class="equipment-name">Тягачи седельные</span>
+                        <span class="equipment-desc">Volvo, MAN</span>
+                    </div>
+                    <div class="equipment-item">
+                        <span class="equipment-name">Тралы 40т</span>
+                        <span class="equipment-desc">BROSHUIS, KASSBOHRER</span>
+                    </div>
+                    <div class="equipment-item">
+                        <span class="equipment-name">Полуприцепы</span>
+                        <span class="equipment-desc">NOOTEBOOM</span>
+                    </div>
+                </div>
+            </div>
+            <div class="equipment-category">
+                <div class="category-header">
+                    <span class="category-icon">🌲</span>
+                    <h3>Для участков</h3>
+                </div>
+                <div class="equipment-list">
+                    <div class="equipment-item">
+                        <span class="equipment-name">Виброкатки</span>
+                        <span class="equipment-desc">VV1100D, Hamm</span>
+                    </div>
+                    <div class="equipment-item">
+                        <span class="equipment-name">Экскаваторы-погрузчики</span>
+                        <span class="equipment-desc">Komatsu W97S</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Решения под ключ -->
+<section id="solutions" class="solutions">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">РАБОТАЕМ ПОД КЛЮЧ</div>
+            <h2>Комплексные решения</h2>
+            <p>Полный цикл работ без привлечения дополнительных подрядчиков</p>
+        </div>
+        <div class="solutions-grid">
+            <div class="solution-card">
+                <h4>🏗️ Расчистка участка</h4>
+                <ul class="solution-steps">
+                    <li><span class="step-number">1</span> Экскаватор — корчуем пни</li>
+                    <li><span class="step-number">2</span> Бульдозер — планируем</li>
+                    <li><span class="step-number">3</span> Виброкаток — уплотняем</li>
+                </ul>
+            </div>
+            <div class="solution-card">
+                <h4>🚧 Земляные работы</h4>
+                <ul class="solution-steps">
+                    <li><span class="step-number">1</span> Экскаватор — копаем котлован</li>
+                    <li><span class="step-number">2</span> Самосвалы — вывозим грунт</li>
+                    <li><span class="step-number">3</span> Бульдозер — засыпаем</li>
+                </ul>
+            </div>
+            <div class="solution-card">
+                <h4>📦 Доставка + монтаж</h4>
+                <ul class="solution-steps">
+                    <li><span class="step-number">1</span> Трал — привозим оборудование</li>
+                    <li><span class="step-number">2</span> Автокран — монтируем</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Вакансии -->
+<section id="vacancies" class="vacancies">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">РАБОТА У НАС</div>
+            <h2>Вакансии</h2>
+            <p>Стабильная работа, достойная оплата, свой автопарк</p>
+        </div>
+        <div class="vacancies-grid">
+            <div class="vacancy-card">
+                <div class="vacancy-icon"><i class="fas fa-truck"></i></div>
+                <h3>Водитель</h3>
+                <div class="vacancy-salary">от 100 000 ₽</div>
+            </div>
+            <div class="vacancy-card">
+                <div class="vacancy-icon"><i class="fas fa-truck"></i></div>
+                <h3>Механизатор</h3>
+                <div class="vacancy-salary">от 100 000 ₽</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Контакты -->
+<section id="contacts" class="contacts">
+    <div class="container">
+        <div class="contacts-info">
+            <h2>БЕЛТРАНС<span>АВТО</span></h2>
+            <div class="contacts-details">
+                <div class="contact-line">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>Леонид: +7 (911) 946-63-69</span>
+                </div>
+                <div class="contact-line">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>Геннадий: +7 (911) 200-30-21</span>
+                </div>
+                <div class="contact-line">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Ленинградская обл., деревня Антелево, 2А</span>
+                </div>
+                <div class="contact-line">
+                    <i class="far fa-clock"></i>
+                    <span>Круглосуточно 24/7</span>
+                </div>
+            </div>
+            <div class="contacts-buttons">
+                <a href="tel:+79119466369" class="btn btn-primary">Позвонить Леониду</a>
+                <a href="tel:+79112003021" class="btn btn-primary">Позвонить Геннадию</a>
+            </div>
+        </div>
+        <div id="map"></div>
+    </div>
+</section>
+
+<!-- Подвал -->
+<div class="footer">
+    <div class="container">
+        <p>© 2026 БелТрансАвто — аренда спецтехники в СПб и ЛО. Работаем на своей технике, без посредников.</p>
+    </div>
+</div>
+
+<!-- Скрипты -->
+<script>
+    // Мобильное меню
+    const burger = document.getElementById('burgerBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    // Открытие/закрытие меню по клику на бургер
+    burger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileNav.classList.toggle('active');
+    });
+
+    // Закрытие меню при клике на ссылку
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            mobileNav.classList.remove('active');
+        });
+    });
+
+    // Закрытие меню при клике вне его
+    document.addEventListener('click', function(e) {
+        if (!burger.contains(e.target) && !mobileNav.contains(e.target)) {
+            mobileNav.classList.remove('active');
+        }
+    });
+
+    // Обработка изменения размера окна
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 900) {
+            mobileNav.classList.remove('active');
+        }
+    });
+
+    // Яндекс Карта
+    ymaps.ready(init);
+    
+    function init() {
+        var map = new ymaps.Map("map", {
+            center: [59.606360, 30.3436447], // Координаты деревни Антелево (примерные)
+            zoom: 16,
+            controls: ['zoomControl', 'fullscreenControl']
+        });
+        
+        var placemark = new ymaps.Placemark([59.606360, 30.3436447], {
+            hintContent: 'БелТрансАвто',
+            balloonContent: 'Ленинградская обл., деревня Антелево, 2А'
+        }, {
+            preset: 'islands#orangeIcon'
+        });
+        
+        map.geoObjects.add(placemark);
+    }
+</script>
+</body>
+</html>
